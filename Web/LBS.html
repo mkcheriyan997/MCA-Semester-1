@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Library Book Management - Search & Select</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f4f8;
+    margin: 0;
+    padding: 20px;
+    color: #fff;
+  }
+
+  h1, h2 {
+    text-align: center;
+    color: #0a74da;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  form {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(10, 116, 218, 0.2);
+    margin-bottom: 30px;
+    overflow: hidden;
+    color: #333;
+    display: flex;
+    gap: 10px;
+  }
+
+  input[type="text"] {
+    flex-grow: 1;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+
+  button {
+    padding: 8px 20px;
+    background: #0a74da;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  button:hover {
+    background: #0559a7;
+  }
+
+  .book-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+    margin-bottom: 40px;
+  }
+
+  .book {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 320px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    background-size: cover;
+    background-position: center;
+    color: white;
+    cursor: default;
+    transition: box-shadow 0.3s ease;
+  }
+  .book:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  }
+
+  .book::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    border-radius: 12px;
+    z-index: 0;
+  }
+
+  .book > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .book-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+  }
+
+  .book-author {
+    font-size: 1rem;
+    font-style: italic;
+    margin-bottom: 14px;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+  }
+
+  .availability {
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #8fdb8f;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+  }
+
+  .toggle-btn, .select-btn {
+    align-self: flex-start;
+    background: rgba(10, 116, 218, 0.85);
+    border: none;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease;
+    text-shadow: none;
+  }
+  .toggle-btn:hover, .select-btn:hover {
+    background: rgba(5, 89, 167, 0.85);
+  }
+
+  .select-btn[disabled] {
+    background: #aaa;
+    cursor: not-allowed;
+  }
+
+  @media (max-width: 400px) {
+    form {
+      flex-direction: column;
+    }
+    button {
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Library Book Management - Search & Select</h1>
+    <form id="search-form">
+      <input type="text" id="searchInput" placeholder="Search books..." />
+      <button type="submit">Search</button>
+    </form>
+
+    <h2>Search Results (Google Books)</h2>
+    <div class="book-list" id="search-results">
+      <!-- Search results appear here -->
+    </div>
+
+    <h2>My Library</h2>
+    <div class="book-list" id="my-library">
+      <!-- Selected books appear here -->
+    </div>
+  </div>
+
+<script>
+  const searchResultsDiv = document.getElementById('search-results');
+  const myLibraryDiv = document.getElementById('my-library');
+  const searchForm = document.getElementById('search-form');
+  const searchInput = document.getElementById('searchInput');
+
+  const placeholderBg = "https://via.placeholder.com/400x320?text=No+Cover";
+
+  // Store selected books here, each has: title, authors, bg, available
+  const myLibrary = [];
+
+  function renderSearchResults(books) {
+    searchResultsDiv.innerHTML = '';
+
+    if (!books || books.length === 0) {
+      searchResultsDiv.innerHTML = '<p style="color:#555; text-align:center; font-style:italic;">No books found.</p>';
+      return;
+    }
+
+    books.forEach((bookItem, index) => {
+      const volumeInfo = bookItem.volumeInfo;
+      const title = volumeInfo.title || "No Title";
+      const authors = volumeInfo.authors ? volumeInfo.authors.join(', ') : "Unknown Author";
+      const thumbnail = volumeInfo.imageLinks ? volumeInfo.imageLinks.thumbnail.replace('http:', 'https:') : placeholderBg;
+
+      const bookDiv = document.createElement('div');
+      bookDiv.classList.add('book');
+      bookDiv.style.backgroundImage = `url('${thumbnail}')`;
+
+      // Disable select button if already in myLibrary
+      const alreadySelected = myLibrary.some(b => b.title === title && b.authors === authors);
+
+      bookDiv.innerHTML = `
+        <div class="book-title">${title}</div>
+        <div class="book-author">by ${authors}</div>
+        <button class="select-btn" ${alreadySelected ? 'disabled' : ''} data-index="${index}">
+          ${alreadySelected ? 'Selected' : 'Select'}
+        </button>
+      `;
+
+      searchResultsDiv.appendChild(bookDiv);
+    });
+
+    // Attach event listeners to Select buttons
+    const selectButtons = searchResultsDiv.querySelectorAll('.select-btn');
+    selectButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = btn.getAttribute('data-index');
+        addBookToLibrary(books[idx]);
+        btn.disabled = true;
+        btn.textContent = 'Selected';
+      });
+    });
+  }
+
+  function renderMyLibrary(filteredBooks = null) {
+    myLibraryDiv.innerHTML = '';
+
+    const booksToRender = filteredBooks || myLibrary;
+
+    if (booksToRender.length === 0) {
+      myLibraryDiv.innerHTML = '<p style="color:#555; text-align:center; font-style:italic;">No books selected yet.</p>';
+      return;
+    }
+
+    booksToRender.forEach((book, index) => {
+      const bookDiv = document.createElement('div');
+      bookDiv.classList.add('book');
+      bookDiv.style.backgroundImage = `url('${book.bg}')`;
+
+      const availabilityText = book.available ? 'Available' : 'Unavailable';
+      const availabilityColor = book.available ? '#8fdb8f' : '#db8f8f';
+
+      bookDiv.innerHTML = `
+        <div class="book-title">${book.title}</div>
+        <div class="book-author">by ${book.authors}</div>
+        <div class="availability" style="color: ${availabilityColor};">${availabilityText}</div>
+        <button class="toggle-btn" data-index="${index}">
+           ${book.available ? 'Borrow' : 'Return'}
+        </button>
+      `;
+
+      myLibraryDiv.appendChild(bookDiv);
+    });
+
+    // Add toggle availability event listeners
+    const toggleButtons = myLibraryDiv.querySelectorAll('.toggle-btn');
+    toggleButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = btn.getAttribute('data-index');
+        // If filtered, find real index in myLibrary
+        if (Array.isArray(filteredBooks)) {
+          const realIndex = myLibrary.indexOf(filteredBooks[idx]);
+          if (realIndex !== -1) {
+            myLibrary[realIndex].available = !myLibrary[realIndex].available;
+          }
+        } else {
+          myLibrary[idx].available = !myLibrary[idx].available;
+        }
+        renderMyLibrary();
+      });
+    });
+  }
+
+  function addBookToLibrary(bookItem) {
+    const volumeInfo = bookItem.volumeInfo;
+    const title = volumeInfo.title || "No Title";
+    const authors = volumeInfo.authors ? volumeInfo.authors.join(', ') : "Unknown Author";
+    const thumbnail = volumeInfo.imageLinks ? volumeInfo.imageLinks.thumbnail.replace('http:', 'https:') : placeholderBg;
+
+    // Avoid duplicates
+    if (myLibrary.some(b => b.title === title && b.authors === authors)) return;
+
+    myLibrary.push({
+      title,
+      authors,
+      bg: thumbnail,
+      available: true
+    });
+
+    renderMyLibrary();
+
+    // Clear search results and search input after selection
+    searchResultsDiv.innerHTML = '';
+    searchInput.value = '';
+  }
+
+  async function fetchBooks(query) {
+    searchResultsDiv.innerHTML = '<p style="color:#555; text-align:center; font-style:italic;">Loading books...</p>';
+    try {
+      const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=20`;
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data.items) {
+        renderSearchResults(data.items);
+      } else {
+        renderSearchResults([]);
+      }
+    } catch (error) {
+      console.error('Error fetching books:', error);
+      searchResultsDiv.innerHTML = '<p style="color:#f00; text-align:center;">Error fetching books. Please try again later.</p>';
+    }
+  }
+
+  function filterMyLibrary(query) {
+    if (!query) {
+      renderMyLibrary();
+      return;
+    }
+    const q = query.toLowerCase();
+    const filtered = myLibrary.filter(book => {
+      return book.title.toLowerCase().includes(q) || book.authors.toLowerCase().includes(q);
+    });
+    renderMyLibrary(filtered);
+  }
+
+  searchForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const query = searchInput.value.trim();
+
+    filterMyLibrary(query);
+    if (query) {
+      fetchBooks(query);
+    } else {
+      // If no query, clear search results
+      searchResultsDiv.innerHTML = '<p style="color:#555; text-align:center; font-style:italic;">Type a query and search books above.</p>';
+    }
+  });
+
+  // Initial render
+  renderMyLibrary();
+  searchResultsDiv.innerHTML = '<p style="color:#555; text-align:center; font-style:italic;">Type a query and search books above.</p>';
+</script>
+</body>
+</html>

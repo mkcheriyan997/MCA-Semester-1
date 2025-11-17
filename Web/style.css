@@ -1,0 +1,33 @@
+/* External CSS: Card Styling */
+.card {
+  border: 2px solid #0077b6;
+  background-color: lightcyan;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card h2 {
+  color: #0077b6;
+  margin-top: 0;
+}
+
+/* Hover effect for external CSS example */
+.hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  background-color: #9bd8e7;
+}
+
+/* Footer styling */
+.footer {
+  background-color: #0077b6;
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  margin-top: 30px;
+}
+

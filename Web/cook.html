@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cooking and Cleaning Simulation</title>
+
+  <!-- Internal CSS -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      text-align: center;
+      padding-top: 50px;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    .task {
+      margin: 20px auto;
+      padding: 15px;
+      width: 300px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px gray;
+    }
+    #cooking {
+      background-color: #fde2e2;
+    }
+    #cleaning {
+      background-color: #e2f7e2;
+    }
+  </style>
+
+  <!-- Link to external CSS -->
+  <link rel="stylesheet" href="kitchen.css">
+</head>
+<body>
+  <h1>Cooking & Cleaning Simulation</h1>
+
+  <div id="cooking" class="task" style="color: #c0392b;"> <!-- Inline CSS example -->
+    Cooking status: <span id="cookStatus">Not started</span>
+  </div>
+
+  <div id="cleaning" class="task">
+    Cleaning status: <span id="cleanStatus">Not started</span>
+  </div>
+
+  <button onclick="startTasks()">Start Tasks</button>
+
+  <script src="clean.js"></script>
+</body>
+</html>
+

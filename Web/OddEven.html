@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Odd or Even Checker</title>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Internal CSS -->
+    <style>
+        input[type="number"] {
+            padding: 10px 15px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            border: 2px solid #66a6ff;
+            outline: none;
+            transition: border-color 0.3s ease;
+            width: 250px;
+        }
+        input[type="number"]:focus {
+            border-color: #4285f4;
+        }
+        button {
+            padding: 10px 20px;
+            margin-left: 15px;
+            font-size: 1.1rem;
+            border: none;
+            background-color: #4285f4;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #2a64d6;
+        }
+    </style>
+</head>
+<body>
+    <h2>&#128290; Odd or Even Checker</h2>
+
+    <!-- Inline CSS for container -->
+    <div style="display: flex; align-items: center; justify-content: center;">
+        <input
+            type="number"
+            id="numberInput"
+            placeholder="Enter a Number"
+            style="box-shadow: 0 0 8px rgba(102, 166, 255, 0.7);"
+        />
+        <button onclick="chck()">Check</button>
+    </div>
+
+    <p id="result"></p>
+
+    <script>
+        function chck() {
+            const num = document.getElementById("numberInput").value;
+            const result = document.getElementById("result");
+
+            if (num === "") {
+                result.textContent = "Please Enter a Number";
+                result.style.color = "red";
+                return;
+            }
+
+            if (num % 2 === 0) {
+                result.textContent = num + " is even";
+                result.style.color = "green";
+            } else {
+                result.textContent = num + " is odd";
+                result.style.color = "orange";
+            }
+        }
+    </script>
+</body>
+</html>
