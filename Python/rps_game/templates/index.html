@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Rock – Paper – Scissors</h1>
+        <p>First to {{ target }} points wins the game!</p>
+
+        <div class="scoreboard">
+            <p><strong>You:</strong> {{ player_score }}</p>
+            <p><strong>Computer:</strong> {{ computer_score }}</p>
+        </div>
+
+        {% if not winner %}
+        <form method="POST" class="buttons">
+            <button name="choice" value="Rock">🪨 Rock</button>
+            <button name="choice" value="Paper">📄 Paper</button>
+            <button name="choice" value="Scissors">✂️ Scissors</button>
+        </form>
+
+        <form method="POST" class="controls">
+            <button name="defeat" value="1" class="danger">Admit Defeat</button>
+            <button name="restart" value="1" class="restart">Restart Game</button>
+        </form>
+        {% endif %}
+
+        {% if result %}
+        <div class="result-box">
+            <p><strong>You chose:</strong> {{ player }}</p>
+            <p><strong>Computer chose:</strong> {{ computer }}</p>
+            <h2>{{ result }}</h2>
+        </div>
+        {% endif %}
+
+        {% if winner %}
+        <div class="winner-box">
+            <h2>🏆 {{ winner }} Wins the Game! 🏆</h2>
+            <form method="POST">
+                <button name="restart" value="1" class="restart">Play Again</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+

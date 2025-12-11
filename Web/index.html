@@ -1,0 +1,76 @@
+
+<html>
+<head>
+  <title>CSS Demonstration</title>
+
+  <!-- Internal CSS -->
+  <style>
+    /* ----------- Page Styling ----------- */
+    body {
+      background: linear-gradient(to right, #e0f7fa, #afd3f3);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Paragraph styling */
+    p {
+      color: #333;
+      font-size: 18px;
+      line-height: 1.8;
+      background-color: #ffffffdd;
+      padding: 15px;
+      margin: 15px 20px;
+      border-left: 5px solid #0077b6;
+      border-radius: 5px;
+    }
+
+    /* Section wrapper */
+    section {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+  </style>
+
+  <!-- External CSS link -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Inline CSS for heading -->
+  <header style="background-color: #0077b6; padding: 20px; text-align: center;">
+    <h1 style="color: white; font-size: 36px; margin: 0;">CSS Demonstration Project</h1>
+  </header>
+
+  <section>
+    <p>
+      This paragraph is styled using <b>Internal CSS</b>.  
+      Notice the background color, custom font, spacing, and gradient page background.
+    </p>
+
+    <p>
+      Internal CSS is useful for styling a **specific page** without affecting the entire website.
+      It keeps related styles in one place, making it easy to maintain.
+    </p>
+
+    <!-- Divs styled with External CSS -->
+    <div class="card">
+      <h2>External CSS Example</h2>
+      <p>This box is styled entirely using <b>External CSS</b>.  
+         External stylesheets are great for reusability across multiple pages.</p>
+    </div>
+
+    <div class="card hover-card">
+      <h2>Hover Over Me!</h2>
+      <p>Hover effects are handled by External CSS to make the site interactive and dynamic.</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>Created as a demonstration of Inline, Internal, and External CSS &copy; 2025</p>
+  </footer>
+
+</body>
+</html>
+

@@ -1,0 +1,63 @@
+/* Background */
+body {
+  margin: 0;
+  background: #1f1f1f;
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+/* Main container: centers everything */
+.container {
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Title styling */
+.title {
+  text-align: center;
+  font-size: 45px;
+  margin-bottom: 30px;
+}
+
+/* Make items appear in center, not left */
+.items-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  align-items: center; /* centers items */
+}
+
+/* Card style */
+.item-card {
+  width: 260px;
+  background: #2b2b2b;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.4);
+  text-align: center;
+}
+
+/* Price */
+.price {
+  margin: 10px 0 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Button styles */
+.btn {
+  background: royalblue;
+  border: none;
+  padding: 10px 18px;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn:hover {
+  background: #3358d4;
+}
+

@@ -1,0 +1,92 @@
+
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Register</title>
+
+ 
+  <link rel="stylesheet" href="stiles.css">
+
+  
+  <style>
+    body { font-family: Arial, sans-serif; padding: 24px; max-width:640px; margin:auto; }
+    form { display:grid; gap:10px; }
+    label { font-weight:600; }
+    input, select { padding:8px; font-size:14px; width:100%; box-sizing:border-box; }
+    .row { display:flex; gap:10px; }
+    .small { font-size:12px; color:#666; }
+    .err { color:#b00020; font-size:13px; height:16px; } /* reserved space for messages */
+    .success { color: #0a7; }
+  </style>
+</head>
+<body>
+
+  <h1>Registration</h1>
+
+  <form id="regForm" novalidate>
+    <div>
+      <label for="name">Full name</label>
+      <input id="name" name="name" type="text" placeholder="John Doe" required>
+      <div class="err" id="e_name"></div>
+    </div>
+
+    <div>
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" placeholder="you@example.com" required>
+      <div class="err" id="e_email"></div>
+    </div>
+
+    <div class="row">
+      <div style="flex:1">
+        <label for="pwd">Password</label>
+        <input id="pwd" name="pwd" type="password" minlength="6" required>
+        <div class="err" id="e_pwd"></div>
+      </div>
+      <div style="flex:1">
+        <label for="cpwd">Confirm</label>
+        <input id="cpwd" name="cpwd" type="password" required>
+        <div class="err" id="e_cpwd"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div style="flex:1">
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" type="tel" placeholder="10 digits" required>
+        <div class="err" id="e_phone"></div>
+      </div>
+
+      <div style="width:140px">
+        <label for="age">Age</label>
+        <input id="age" name="age" type="number" min="13" max="120" required>
+        <div class="err" id="e_age"></div>
+      </div>
+    </div>
+
+    <div>
+      <label for="role">Role</label>
+      <select id="role" name="role" required>
+        <option value="">-- choose --</option>
+        <option>Student</option>
+        <option>Developer</option>
+        <option>Organizer</option>
+      </select>
+      <div class="err" id="e_role"></div>
+    </div>
+
+    <div>
+      <label><input id="tos" name="tos" type="checkbox"> I agree to terms</label>
+      <div class="err" id="e_tos"></div>
+    </div>
+
+    
+    <button type="submit" style="padding:10px 16px; border-radius:6px;">Register</button>
+
+    <div id="result" class="small"></div>
+  </form>
+
+  
+  <script src="script.js"></script>
+</body>
+</html>
+

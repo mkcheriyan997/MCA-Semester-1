@@ -1,0 +1,2 @@
+n, p, d, l, des, sa = input("Name: "), input("Phone: "), input("Dept: "), input("Location: "), input("Designation: "), float(input("Salary: "))
+print(f"Name:{n}, Phone:{p}, Dept:{d}, Location:{l}, Des:{des}, New Salary:{sa*1.1:.2f}")

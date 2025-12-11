@@ -1,0 +1,7 @@
+/* styles.css */
+:root { --accent:#0366d6; --danger:#b00020; }
+h1 { color: var(--accent); }
+input:invalid { outline: 1px solid #f4c2c2; }
+button { background: var(--accent); color: #fff; border: none; cursor: pointer; }
+button:active { transform: translateY(1px); }
+
